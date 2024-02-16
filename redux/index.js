@@ -5,11 +5,11 @@ import {
   deleteUserReducer
 } from './reducers/users'
 
-const userReducer = {
+const userReducers = {
   searchUsers: searchUsersReducer,
   oneUser: oneUserReducer,
   updateUser: updateUserReducer,
   deleteUser: deleteUserReducer
 }
 
-export { userReducer}
+export { userReducers }

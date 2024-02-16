@@ -9,11 +9,12 @@
   "license": "ISC",
   "exports": {
     "./views/*": "./views/*.js",
-    "./redux/*": "./redux/*.js",
-    "./lib/*": "./lib/*.js",
-    "./react-query/*": "./react-query/*.js"
+    "./redux/*": "./redux/*.js"
   },
   "dependencies": {
+    "@mod/mobile-common": "file:../mod-mobile-common",
+    "@mod/mobile-auth": "file:../mod-mobile-auth",
+    "@mod/mobile-tmdb": "file:../mod-mobile-tmdb",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-navigation/native": "^6.1.6",

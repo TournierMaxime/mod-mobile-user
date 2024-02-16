@@ -34,8 +34,6 @@ const UserProfile = ({ route }) => {
   const accessDenied = checkAccess(isLogged, currentUserId, userId)
   const user = useSelector((state) => state.auth.data.user)
 
-  console.log(user?.pseudo);
-
   const { t } = useTranslation()
 
   const handleLogout = () => {

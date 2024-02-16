@@ -1,4 +1,4 @@
-import { SearchUsers, GetOneUser, UpdateUser, DeleteUser } from '../../services/users'
+import { SearchUsers, GetOneUser, UpdateUser, DeleteUser } from '../../../../services/users'
 
 const searchUsers = (data) => async (dispatch) => {
   try {

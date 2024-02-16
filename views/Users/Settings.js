@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import Languages from '@mod/mobile-tmdb/lib/components/Languages'
 import { useTranslation } from 'react-i18next'
-import packageJson from '../../../package.json'
+import packageJson from '../../../../../package.json'
 import tw from 'twrnc'
 
 const Settings = () => {
