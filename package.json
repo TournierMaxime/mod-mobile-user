@@ -1,0 +1,28 @@
+{
+  "name": "@mod/mobile-user",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    "./views/*": "./views/*.js",
+    "./redux/*": "./redux/*.js",
+    "./lib/*": "./lib/*.js",
+    "./react-query/*": "./react-query/*.js"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-navigation/native": "^6.1.6",
+    "expo-image-picker": "^14.1.1",
+    "react": "^18.2.0",
+    "react-i18next": "^13.0.1",
+    "react-native": "^0.71.4",
+    "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.0.5",
+    "twrnc": "^3.6.8"
+  }
+}
