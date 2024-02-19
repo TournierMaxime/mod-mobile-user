@@ -4,6 +4,11 @@ import {
   updateUserReducer,
   deleteUserReducer
 } from './reducers/users'
+import {
+  createRecommendationReducer,
+  oneRecommendationReducer,
+  deleteRecommendationReducer
+} from './reducers/recommendations'
 
 const userReducers = {
   searchUsers: searchUsersReducer,
@@ -12,4 +17,10 @@ const userReducers = {
   deleteUser: deleteUserReducer
 }
 
-export { userReducers }
+const recommendationReducers = {
+  createRecommendation: createRecommendationReducer,
+  oneRecommendation: oneRecommendationReducer,
+  deleteRecommendation: deleteRecommendationReducer
+}
+
+export { userReducers, recommendationReducers }
