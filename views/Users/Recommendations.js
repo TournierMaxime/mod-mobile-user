@@ -4,12 +4,15 @@ import { getRecommendation } from '@mod/mobile-user/redux/actions/recommendation
 import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native'
 import tw from 'twrnc'
 import { useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 
 const Recommendations = ({ route }) => {
   const { recommendationId } = route.params
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
+  const { t } = useTranslation()
 
   const oneRecommendation = useSelector(
     (state) => state.oneRecommendation.data.recommendation
@@ -72,7 +75,7 @@ const Recommendations = ({ route }) => {
         numColumns={2}
         ListHeaderComponent={
           <Text style={tw`font-medium text-xl text-center mt-4`}>
-            Parce que vous avez aimé {oneRecommendation?.name}
+            {t('utils.becauseYouLiked')} {oneRecommendation?.name}
           </Text>
         }
       />
