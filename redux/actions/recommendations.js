@@ -13,10 +13,10 @@ const createRecommendation = (data) => async (dispatch) => {
   }
 };
 
-const getRecommendation = (recommendationId) => async (dispatch) => {
+const getRecommendation = (recommendationId, userId) => async (dispatch) => {
   try {
     dispatch({type: 'GET_RECOMMENDATION_REQUEST'})
-    const response = await GetOneRecommendation(recommendationId)
+    const response = await GetOneRecommendation(recommendationId, userId)
     dispatch({type: 'GET_RECOMMENDATION_SUCCESS', payload: response.data});
     return response.data
   } catch (error) {
@@ -26,10 +26,10 @@ const getRecommendation = (recommendationId) => async (dispatch) => {
   }
 };
 
-const deleteRecommendation = (recommendationId) => async (dispatch) => {
+const deleteRecommendation = (recommendationId, userId) => async (dispatch) => {
   try {
     dispatch({type: 'DELETE_RECOMMENDATION_REQUEST'})
-    const response = await DeleteRecommendation(recommendationId)
+    const response = await DeleteRecommendation(recommendationId, userId)
     dispatch({type: 'DELETE_RECOMMENDATION_SUCCESS', payload: response.data});
     return response.data
   } catch (error) {

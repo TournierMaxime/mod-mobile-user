@@ -5,9 +5,10 @@ import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native'
 import tw from 'twrnc'
 import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
+import Message from "@mod/mobile-common/lib/components/utils/Message"
 
 const Recommendations = ({ route }) => {
-  const { recommendationId } = route.params
+  const { userId, recommendationId } = route.params
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -27,6 +28,12 @@ const Recommendations = ({ route }) => {
       navigation.navigate('DetailsSerie', {
         id: data.id,
       })
+    }
+  }
+
+  const noDataObject = () => {
+    if (!oneRecommendation?.data?.data) {
+      return <Message priority={"info"} message={"No data were found"} />
     }
   }
 
@@ -63,8 +70,8 @@ const Recommendations = ({ route }) => {
   }
 
   useEffect(() => {
-    dispatch(getRecommendation(recommendationId))
-  }, [dispatch, recommendationId])
+    dispatch(getRecommendation(recommendationId, userId))
+  }, [dispatch, recommendationId, userId])
 
   return (
     <View style={tw`items-center justify-between`}>
@@ -73,6 +80,7 @@ const Recommendations = ({ route }) => {
         data={oneRecommendation?.data}
         renderItem={({ item, idx }) => renderItem(item, idx)}
         numColumns={2}
+        ListEmptyComponent={noDataObject()}
         ListHeaderComponent={
           <Text style={tw`font-medium text-xl text-center mt-4`}>
             {t('utils.becauseYouLiked')} {oneRecommendation?.name}
