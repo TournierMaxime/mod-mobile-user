@@ -14,7 +14,7 @@ import {
   Entypo,
   FontAwesome5,
   MaterialIcons,
-  Ionicons,
+  Feather
 } from 'react-native-vector-icons'
 import AlertModal from '@mod/mobile-common/lib/components/utils/AlertModal'
 import { useTranslation } from 'react-i18next'
@@ -117,9 +117,9 @@ const UserProfile = ({ route }) => {
                 >
                   <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
-                      <Ionicons
+                      <Feather
                         style={tw`mr-4`}
-                        name='settings-outline'
+                        name='settings'
                         size={Utils.moderateScale(25)}
                         color='black'
                       />
