@@ -6,10 +6,15 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import useHandleFavorites from '@mod/mobile-common/lib/hooks/utils/useHandleFavorites'
 import Utils from '@mod/mobile-common/lib/class/Utils'
+import { useDynamicThemeStyles } from '@mod/mobile-common/styles/theme'
 
 const Favorites = () => {
   const favorites = useSelector((state) => state.favorites.data)
   const navigation = useNavigation()
+
+  const darkMode = useSelector((state) => state.theme.darkMode)
+
+  const { background, text, colorIcon } = useDynamicThemeStyles(darkMode)
 
   const { removeFromFavorite } = useHandleFavorites({ favorites })
 
@@ -61,12 +66,12 @@ const Favorites = () => {
     return (
       <View
         key={idx}
-        style={tw`flex flex-row justify-between items-center bg-white p-2 mt-px`}
+        style={tw`flex flex-row justify-between items-center ${background} p-2 mt-px border-b-2 border-slate-100`}
       >
         {renderType(item.type)}
 
         <View style={tw`w-1/3 items-center`}>
-          <Text style={tw`font-medium text-xl`}>{name}</Text>
+          <Text style={tw`font-medium text-xl ${text}`}>{name}</Text>
         </View>
         <TouchableOpacity
           onPress={() => removeFromFavorite(id)}
@@ -75,7 +80,7 @@ const Favorites = () => {
           <MaterialIcons
             name='delete'
             size={Utils.moderateScale(40)}
-            color='red'
+            color={colorIcon}
           />
         </TouchableOpacity>
       </View>
@@ -84,6 +89,7 @@ const Favorites = () => {
 
   return (
     <FlatList
+      style={tw`${background}`}
       data={favorites}
       keyExtractor={(item) => item.id}
       renderItem={({ item, idx }) => renderItem(item, idx)}

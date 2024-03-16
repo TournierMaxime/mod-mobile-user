@@ -8,12 +8,17 @@ import { useTranslation } from 'react-i18next'
 import { AlertMessage } from '@mod/mobile-common/lib/components/utils/AlertMessage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import tw from 'twrnc'
+import { useDynamicThemeStyles } from '@mod/mobile-common/styles/theme'
 
 const DetailsUser = ({ route }) => {
   const { userId } = route.params
   const dispatch = useDispatch()
   const localStorageData = useSelector((state) => state.auth.data)
   const [isOnChange, setIsOnChange] = useState(false)
+
+  const darkMode = useSelector((state) => state.theme.darkMode)
+
+  const { background, text } = useDynamicThemeStyles(darkMode)
 
   const { t } = useTranslation()
 
@@ -94,26 +99,26 @@ const DetailsUser = ({ route }) => {
     <View
       style={tw`flex flex-col justify-between`}
     >
-      <View style={tw`bg-white p-4 rounded-md h-full`}>
-        <Text style={tw`font-medium text-lg`}>{t('utils.userName')}</Text>
+      <View style={tw`${background} p-4 rounded-md h-full`}>
+        <Text style={tw`font-medium text-lg ${text}`}>{t('utils.userName')}</Text>
         <TextInput
-          style={tw`mt-2 px-3 py-2 text-gray-500 text-lg border border-slate-200 rounded-lg`}
+          style={tw`mt-2 px-3 py-2 text-gray-500 text-lg border border-slate-200 rounded-lg ${text}`}
           placeholder={t('utils.userName')}
           onChangeText={(text) => {
             setData({ ...data, pseudo: text }), setIsOnChange(true)
           }}
           defaultValue={data?.pseudo}
         />
-        <Text style={tw`font-medium text-lg`}>{t('utils.email')}</Text>
+        <Text style={tw`font-medium text-lg ${text}`}>{t('utils.email')}</Text>
         <TextInput
-          style={tw`mt-2 px-3 py-2 text-gray-500 text-lg border border-slate-200 rounded-lg`}
+          style={tw`mt-2 px-3 py-2 text-gray-500 text-lg border border-slate-200 rounded-lg ${text}`}
           placeholder={t('utils.email')}
           onChangeText={(text) => {
             setData({ ...data, email: text }), setIsOnChange(true)
           }}
           defaultValue={data?.email}
         />
-        <Text style={tw`mt-2 font-medium text-lg`}>{t('utils.avatar')}</Text>
+        <Text style={tw`mt-2 font-medium text-lg ${text}`}>{t('utils.avatar')}</Text>
         <View
           style={tw`flex-row justify-between items-center mb-8`}
         >

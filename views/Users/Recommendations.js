@@ -6,6 +6,7 @@ import tw from 'twrnc'
 import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 import Message from "@mod/mobile-common/lib/components/utils/Message"
+import { useDynamicThemeStyles } from '@mod/mobile-common/styles/theme'
 
 const Recommendations = ({ route }) => {
   const { userId, recommendationId } = route.params
@@ -14,6 +15,10 @@ const Recommendations = ({ route }) => {
   const navigation = useNavigation()
 
   const { t } = useTranslation()
+
+  const darkMode = useSelector((state) => state.theme.darkMode)
+
+  const { background, text } = useDynamicThemeStyles(darkMode)
 
   const oneRecommendation = useSelector(
     (state) => state.oneRecommendation.data.recommendation
@@ -74,15 +79,16 @@ const Recommendations = ({ route }) => {
   }, [dispatch, recommendationId, userId])
 
   return (
-    <View style={tw`items-center justify-between`}>
+    <View style={tw`items-center justify-between ${background}`}>
       <FlatList
+        style={tw`${background}`}
         keyExtractor={(item) => item.id}
         data={oneRecommendation?.data}
         renderItem={({ item, idx }) => renderItem(item, idx)}
         numColumns={2}
         ListEmptyComponent={noDataObject()}
         ListHeaderComponent={
-          <Text style={tw`font-medium text-xl text-center mt-4`}>
+          <Text style={tw`font-medium text-xl text-center mt-4 ${text}`}>
             {t('utils.becauseYouLiked')} {oneRecommendation?.name}
           </Text>
         }

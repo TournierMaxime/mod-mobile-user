@@ -21,18 +21,25 @@ import { useTranslation } from 'react-i18next'
 import Utils from '@mod/mobile-common/lib/class/Utils'
 import { AlertMessage } from '@mod/mobile-common/lib/components/utils/AlertMessage'
 import tw from 'twrnc'
+import { useDynamicThemeStyles } from '@mod/mobile-common/styles/theme'
 
 const UserProfile = ({ route }) => {
   const { userId } = route.params
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
   const oneUser = useSelector((state) => state.oneUser.data)
   const currentUserId = useSelector((state) => state.auth.data.user.userId)
   const isLogged = useSelector((state) => state.auth.isAuthenticated)
+  const user = useSelector((state) => state.auth.data.user)
+  const darkMode = useSelector((state) => state.theme.darkMode)
+
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const [deleteSuccess, setDeleteSuccess] = useState(false)
+
   const accessDenied = checkAccess(isLogged, currentUserId, userId)
-  const user = useSelector((state) => state.auth.data.user)
+
+  const { background, colorIcon, text } = useDynamicThemeStyles(darkMode)
 
   const { t } = useTranslation()
 
@@ -62,7 +69,7 @@ const UserProfile = ({ route }) => {
   }
 
   return (
-    <View style={tw`bg-white flex-1 items-center justify-between`}>
+    <View style={tw`${background} flex-1 items-center justify-between`}>
       {accessDenied ? (
         accessDenied
       ) : (
@@ -73,20 +80,20 @@ const UserProfile = ({ route }) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('DetailsUser', { userId })}
                 >
-                  <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderTopWidth: 2, borderBottomWidth: 2 }]}>
+                  <View style={[tw`${background} w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderTopWidth: 2, borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
                       <FontAwesome5
                         style={tw`mr-4`}
                         name='user'
                         size={Utils.moderateScale(25)}
-                        color='black'
+                        color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg`}>{user?.pseudo}</Text>
+                      <Text style={tw`font-medium text-lg ${text}`}>{user?.pseudo}</Text>
                     </View>
                     <Entypo
                       name='chevron-small-right'
                       size={Utils.moderateScale(25)}
-                      color='black'
+                      color={colorIcon}
                     />
                   </View>
                 </TouchableOpacity>
@@ -94,20 +101,20 @@ const UserProfile = ({ route }) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Favorites', { userId })}
                 >
-                  <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
+                  <View style={[tw`${background} w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
                       <MaterialIcons
                         style={tw`mr-4`}
                         name='favorite-outline'
                         size={Utils.moderateScale(25)}
-                        color='black'
+                        color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg`}>{t('utils.favorites')}</Text>
+                      <Text style={tw`font-medium text-lg ${text}`}>{t('utils.favorites')}</Text>
                     </View>
                     <Entypo
                       name='chevron-small-right'
                       size={Utils.moderateScale(25)}
-                      color='black'
+                      color={colorIcon}
                     />
                   </View>
                 </TouchableOpacity>
@@ -115,60 +122,60 @@ const UserProfile = ({ route }) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Settings', { userId })}
                 >
-                  <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
+                  <View style={[tw`${background} w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
                       <Feather
                         style={tw`mr-4`}
                         name='settings'
                         size={Utils.moderateScale(25)}
-                        color='black'
+                        color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg`}>{t('utils.settings')}</Text>
+                      <Text style={tw`font-medium text-lg ${text}`}>{t('utils.settings')}</Text>
                     </View>
                     <Entypo
                       name='chevron-small-right'
                       size={Utils.moderateScale(25)}
-                      color='black'
+                      color={colorIcon}
                     />
                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleLogout()}>
-                  <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
+                  <View style={[tw`${background} w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
                       <MaterialIcons
                         style={tw`mr-4`}
                         name='logout'
                         size={Utils.moderateScale(25)}
-                        color='black'
+                        color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg`}>{t('utils.logout')}</Text>
+                      <Text style={tw`font-medium text-lg ${text}`}>{t('utils.logout')}</Text>
                     </View>
                     <Entypo
                       name='chevron-small-right'
                       size={Utils.moderateScale(25)}
-                      color='black'
+                      color={colorIcon}
                     />
                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleDeleteModal()}>
-                  <View style={[tw`bg-white w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
+                  <View style={[tw`${background} w-full p-4 flex flex-row items-center justify-between border-slate-100`, { borderBottomWidth: 2 }]}>
                     <View style={tw`flex flex-row items-center`}>
                       <MaterialIcons
                         style={tw`mr-4`}
                         name='delete-outline'
                         size={Utils.moderateScale(25)}
-                        color='black'
+                        color={colorIcon}
                       />
-                      <Text style={[tw`font-medium text-lg`, { color: 'red' }]}>
+                      <Text style={[tw`font-medium text-lg ${text}`, { color: 'red' }]}>
                         {t('utils.deleteAccount')}
                       </Text>
                     </View>
                     <Entypo
                       name='chevron-small-right'
                       size={Utils.moderateScale(25)}
-                      color='black'
+                      color={colorIcon}
                     />
                   </View>
                 </TouchableOpacity>
