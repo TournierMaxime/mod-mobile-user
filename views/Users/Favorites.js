@@ -1,12 +1,12 @@
-import React, { memo } from 'react'
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native'
-import { useSelector } from 'react-redux'
-import tw from 'twrnc'
-import { MaterialIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import useHandleFavorites from '@mod/mobile-common/lib/hooks/utils/useHandleFavorites'
-import Utils from '@mod/mobile-common/lib/class/Utils'
-import { useDynamicThemeStyles } from '@mod/mobile-common/styles/theme'
+import React, { memo } from "react"
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native"
+import { useSelector } from "react-redux"
+import tw from "twrnc"
+import { MaterialIcons } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
+import useHandleFavorites from "@mod/mobile-common/lib/hooks/utils/useHandleFavorites"
+import Utils from "@mod/mobile-common/lib/class/Utils"
+import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 
 const Favorites = () => {
   const favorites = useSelector((state) => state.favorites.data)
@@ -14,7 +14,8 @@ const Favorites = () => {
 
   const darkMode = useSelector((state) => state.theme.darkMode)
 
-  const { background, text, colorIcon } = useDynamicThemeStyles(darkMode)
+  const { background, text, colorIcon, borderColor } =
+    useDynamicThemeStyles(darkMode)
 
   const { removeFromFavorite } = useHandleFavorites({ favorites })
 
@@ -23,28 +24,28 @@ const Favorites = () => {
 
     const renderType = (type) => {
       switch (type) {
-        case 'serie': {
+        case "serie": {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('DetailsSerie', { id })}
+              onPress={() => navigation.navigate("DetailsSerie", { id })}
               style={tw`w-1/3 items-start`}
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: 'cover' }]}
+                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
               />
             </TouchableOpacity>
           )
         }
-        case 'people': {
+        case "people": {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('DetailsPeople', { id })}
+              onPress={() => navigation.navigate("DetailsPeople", { id })}
               style={tw`w-1/3 items-start`}
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: 'cover' }]}
+                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
               />
             </TouchableOpacity>
           )
@@ -52,12 +53,12 @@ const Favorites = () => {
         default:
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('DetailsMovie', { id })}
+              onPress={() => navigation.navigate("DetailsMovie", { id })}
               style={tw`w-1/3 items-start`}
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: 'cover' }]}
+                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
               />
             </TouchableOpacity>
           )
@@ -66,7 +67,7 @@ const Favorites = () => {
     return (
       <View
         key={idx}
-        style={tw`flex flex-row justify-between items-center ${background} p-2 mt-px border-b-2 border-slate-100`}
+        style={tw`flex flex-row justify-between items-center ${background} p-2 mt-px border-b-2 ${borderColor}`}
       >
         {renderType(item.type)}
 
@@ -78,7 +79,7 @@ const Favorites = () => {
           style={tw`w-1/3 items-end`}
         >
           <MaterialIcons
-            name='delete'
+            name="delete"
             size={Utils.moderateScale(40)}
             color={colorIcon}
           />
