@@ -24,9 +24,9 @@ const UserProfile = ({ route }) => {
   const navigation = useNavigation()
 
   const oneUser = useSelector((state) => state.oneUser.data)
-  const currentUserId = useSelector((state) => state.auth.data.user.userId)
+  const currentUserId = useSelector((state) => state.auth.data?.user?.userId)
   const isLogged = useSelector((state) => state.auth.isAuthenticated)
-  const user = useSelector((state) => state.auth.data.user)
+  const user = useSelector((state) => state.auth.data?.user)
   const darkMode = useSelector((state) => state.theme.darkMode)
 
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
