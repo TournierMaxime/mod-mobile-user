@@ -74,7 +74,7 @@ const UserProfile = ({ route }) => {
             <View style={tw`flex w-full`}>
               <ScrollView contentContainerStyle={tw`h-full`}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("DetailsUser", { userId })}
+                  onPress={() => navigation.navigate("UpdateData", { userId })}
                 >
                   <View
                     style={[
