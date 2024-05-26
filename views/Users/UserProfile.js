@@ -17,6 +17,7 @@ import Utils from "@mod/mobile-common/lib/class/Utils"
 import { AlertMessage } from "@mod/mobile-common/lib/components/utils/AlertMessage"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
+import PrivacyPolicy from "./PrivacyPolicy"
 
 const UserProfile = ({ route }) => {
   const { userId } = route.params
@@ -147,6 +148,34 @@ const UserProfile = ({ route }) => {
                       />
                       <Text style={tw`font-medium text-lg ${text}`}>
                         {t("utils.settings")}
+                      </Text>
+                    </View>
+                    <Entypo
+                      name="chevron-small-right"
+                      size={Utils.moderateScale(25)}
+                      color={colorIcon}
+                    />
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("PrivacyPolicy")}
+                >
+                  <View
+                    style={[
+                      tw`${background} w-full p-4 flex flex-row items-center justify-between ${borderColor}`,
+                      { borderBottomWidth: 2 },
+                    ]}
+                  >
+                    <View style={tw`flex flex-row items-center`}>
+                      <MaterialIcons
+                        style={tw`mr-4`}
+                        name="security"
+                        size={Utils.moderateScale(25)}
+                        color={colorIcon}
+                      />
+                      <Text style={tw`font-medium text-lg ${text}`}>
+                        {t("utils.privacyPolicy")}
                       </Text>
                     </View>
                     <Entypo
