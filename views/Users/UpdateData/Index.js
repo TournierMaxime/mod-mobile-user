@@ -86,35 +86,33 @@ const UpdateData = ({ route }) => {
             </TouchableOpacity>
           )}
 
-          {localStorageData?.user?.provider === "Google" ? null : (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("UpdateAvatar", { userId })}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("UpdateAvatar", { userId })}
+          >
+            <View
+              style={[
+                tw`${background} w-full p-4 flex flex-row items-center justify-between ${borderColor}`,
+                { borderBottomWidth: 2 },
+              ]}
             >
-              <View
-                style={[
-                  tw`${background} w-full p-4 flex flex-row items-center justify-between ${borderColor}`,
-                  { borderBottomWidth: 2 },
-                ]}
-              >
-                <View style={tw`flex flex-row items-center`}>
-                  <Entypo
-                    style={tw`mr-3`}
-                    name="image"
-                    size={Utils.moderateScale(28)}
-                    color={colorIcon}
-                  />
-                  <Text style={tw`font-medium text-lg ${text}`}>
-                    {t("utils.avatar")}
-                  </Text>
-                </View>
+              <View style={tw`flex flex-row items-center`}>
                 <Entypo
-                  name="chevron-small-right"
-                  size={Utils.moderateScale(25)}
+                  style={tw`mr-3`}
+                  name="image"
+                  size={Utils.moderateScale(28)}
                   color={colorIcon}
                 />
+                <Text style={tw`font-medium text-lg ${text}`}>
+                  {t("utils.avatar")}
+                </Text>
               </View>
-            </TouchableOpacity>
-          )}
+              <Entypo
+                name="chevron-small-right"
+                size={Utils.moderateScale(25)}
+                color={colorIcon}
+              />
+            </View>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </View>

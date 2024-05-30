@@ -8,12 +8,17 @@ const useHandleUpdateUser = () => {
 
   const [dataNotifications, setDataNotifications] = useState({
     expoPushToken: null,
+    isEmailActive: false,
   })
 
   const { message, setMessage } = useMessage()
 
   const handleUpdatePreferences = async (dataNotifications, userId) => {
     try {
+      console.log(
+        "handleUpdatePreferences dataNotifications.isEmailActive",
+        typeof dataNotifications.isEmailActive,
+      )
       await dispatch(updateUser(dataNotifications, userId))
       await dispatch(getUser(userId))
       setMessage({ success: "Données mise à jour" })
