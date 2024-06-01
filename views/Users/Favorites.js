@@ -7,8 +7,11 @@ import { useNavigation } from "@react-navigation/native"
 import useHandleFavorites from "@mod/mobile-common/lib/hooks/utils/useHandleFavorites"
 import Utils from "@mod/mobile-common/lib/class/Utils"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
+import { useTranslation } from "react-i18next"
 
 const Favorites = () => {
+  const { t } = useTranslation()
+
   const favorites = useSelector((state) => state.favorites.data)
   const navigation = useNavigation()
 
@@ -94,6 +97,15 @@ const Favorites = () => {
       data={favorites}
       keyExtractor={(item) => item.id}
       renderItem={({ item, idx }) => renderItem(item, idx)}
+      ListEmptyComponent={
+        favorites && favorites.length === 0 ? (
+          <View style={tw`items-center mt-4`}>
+            <Text style={tw`font-medium text-xl ${text}`}>
+              {t("utils.noFavorite")}
+            </Text>
+          </View>
+        ) : null
+      }
     />
   )
 }

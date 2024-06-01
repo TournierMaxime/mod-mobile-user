@@ -102,7 +102,7 @@ const Settings = ({ route }) => {
         </View>
       </TouchableOpacity>
       <View style={tw`items-center my-4`}>
-        <Text style={tw`font-normal text-sm`}>
+        <Text style={tw`font-normal text-sm ${text}`}>
           {t("utils.version")} {packageJson.version} ({packageJson.build})
         </Text>
       </View>
