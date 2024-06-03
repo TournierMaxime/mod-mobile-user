@@ -1,5 +1,11 @@
 import React from "react"
-import { ScrollView, Text, View, TouchableOpacity } from "react-native"
+import {
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+} from "react-native"
 import { useTranslation } from "react-i18next"
 import tw from "twrnc"
 import { useSelector } from "react-redux"
@@ -102,9 +108,17 @@ const Settings = ({ route }) => {
         </View>
       </TouchableOpacity>
       <View style={tw`items-center my-4`}>
-        <Text style={tw`font-normal text-sm ${text}`}>
-          {t("utils.version")} {packageJson.version} ({packageJson.build})
-        </Text>
+        {Platform.OS === "android" ? (
+          <Text style={tw`font-normal text-sm ${text}`}>
+            {t("utils.version")} {packageJson.android.version} (
+            {packageJson.android.build})
+          </Text>
+        ) : (
+          <Text style={tw`font-normal text-sm ${text}`}>
+            {t("utils.version")} {packageJson.ios.version} (
+            {packageJson.ios.build})
+          </Text>
+        )}
       </View>
     </ScrollView>
   )
