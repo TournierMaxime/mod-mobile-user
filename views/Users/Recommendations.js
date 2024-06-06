@@ -7,9 +7,13 @@ import { useNavigation } from "@react-navigation/native"
 import { useTranslation } from "react-i18next"
 import Message from "@mod/mobile-common/lib/components/utils/Message"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import Utils from "@mod/mobile-common/lib/class/Utils"
 
 const Recommendations = ({ route }) => {
   const { userId, recommendationId } = route.params
+
+  const { imagePoster, fontSize } = useResponsive()
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -50,7 +54,7 @@ const Recommendations = ({ route }) => {
           {media_type === "movie" ? (
             <Fragment>
               <Image
-                style={[tw`w-40 h-60 rounded-md m-4`, { resizeMode: "cover" }]}
+                style={imagePoster()}
                 source={{
                   uri: `https://image.tmdb.org/t/p/original${poster_path}`,
                 }}
@@ -59,7 +63,7 @@ const Recommendations = ({ route }) => {
           ) : media_type === "tv" ? (
             <Fragment>
               <Image
-                style={[tw`w-40 h-60 rounded-md m-4`, { resizeMode: "cover" }]}
+                style={imagePoster()}
                 source={{
                   uri: `https://image.tmdb.org/t/p/original${poster_path}`,
                 }}
@@ -85,7 +89,12 @@ const Recommendations = ({ route }) => {
         numColumns={2}
         ListEmptyComponent={noDataObject()}
         ListHeaderComponent={
-          <Text style={tw`font-medium text-xl text-center mt-4 ${text}`}>
+          <Text
+            style={[
+              fontSize(text),
+              { textAlign: "center", marginTop: Utils.moderateScale(15) },
+            ]}
+          >
             {t("utils.becauseYouLiked")} {oneRecommendation?.name}
           </Text>
         }

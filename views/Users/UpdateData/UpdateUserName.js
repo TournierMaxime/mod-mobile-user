@@ -9,11 +9,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import Form from "@mod/mobile-common/lib/class/Form"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const UpdateUserName = ({ route }) => {
   const { userId } = route.params
   const dispatch = useDispatch()
   const localStorageData = useSelector((state) => state.auth.data)
+
+  const { widthAspectRatio } = useResponsive()
 
   const darkMode = useSelector((state) => state.theme.darkMode)
 
@@ -51,15 +54,19 @@ const UpdateUserName = ({ route }) => {
   }
 
   return (
-    <View style={tw`${background} p-4 h-full`}>
-      {Form.inputText(
-        data,
-        setData,
-        t("utils.userName"),
-        "pseudo",
-        data.pseudo,
-      )}
-      {Form.submit(t("utils.update"), handleUpdate)}
+    <View style={tw`items-center`}>
+      <View style={widthAspectRatio()}>
+        <View style={tw`${background} p-4 h-full`}>
+          {Form.inputText(
+            data,
+            setData,
+            t("utils.userName"),
+            "pseudo",
+            data.pseudo,
+          )}
+          {Form.submit(t("utils.update"), handleUpdate)}
+        </View>
+      </View>
     </View>
   )
 }

@@ -3,9 +3,18 @@ import { ScrollView, View, Text } from "react-native"
 import tw from "twrnc"
 import { useSelector } from "react-redux"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const PrivacyPolicy = () => {
   const { t } = useTranslation()
+
+  const {
+    privacyPolicyTitle,
+    privacyPolicySubTitle,
+    privacyPolicyParagraph,
+    privacyPolicyUpdate,
+    privacyPolicyList,
+  } = useResponsive()
 
   const darkMode = useSelector((state) => state.theme.darkMode)
   const { background, text } = useDynamicThemeStyles(darkMode)
@@ -34,140 +43,117 @@ const PrivacyPolicy = () => {
 
   return (
     <ScrollView style={tw`${background} h-full`}>
-      <View style={tw`flex flex-col p-2`}>
-        <Text style={tw`font-medium text-2xl ${text} mb-4`}>
+      <View style={tw`flex flex-col p-4`}>
+        <Text style={privacyPolicyTitle(text)}>
           {t("privacy.h1PrivacyPolicy")}
         </Text>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h2Introduction")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.pIntroduction")}
         </Text>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3PersonalInformation")}
         </Text>
         <View style={tw`mb-4`}>
           {personalInformationList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.pPersonalInformation")}
         </Text>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3Forms&Interactivity")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p1Forms&Interactivity")}
         </Text>
         <View style={tw`mb-4`}>
           {formsAndInteractivityList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p2Forms&Interactivity")}
         </Text>
         <View style={tw`mb-4`}>
           {formsAndInteractivitySecondList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3RightOfOpposition")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p1RightOfOpposition")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p2RightOfOpposition")}
         </Text>
         <View style={tw`mb-4`}>
           {rightOfOppositionList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3PermissionToAccess")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p1PermissionToAccess")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p2PermissionToAccess")}
         </Text>
         <View style={tw`mb-4`}>
           {permissionToAccessList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3Security")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p1Security")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p2Security")}
         </Text>
         <View style={tw`mb-4`}>
           {securityList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.p3Security")}
         </Text>
-        <Text style={tw`font-medium text-xl ${text} mb-4`}>
+        <Text style={privacyPolicySubTitle(text)}>
           {t("privacy.h3Legislation")}
         </Text>
-        <Text style={tw`font-normal text-lg text-justify ${text} mb-4`}>
+        <Text style={privacyPolicyParagraph(text)}>
           {t("privacy.pLegislation")}
         </Text>
         <View style={tw`mb-4`}>
           {legislationList.map((item, index) => (
-            <Text
-              key={index}
-              style={tw`font-normal text-lg ${text} my-px px-4`}
-            >
+            <Text key={index} style={privacyPolicyList(text)}>
               {`\u2022 ${item.li}`}
             </Text>
           ))}
         </View>
-        <Text style={tw`font-normal text-lg ${text} mb-4`}>
-          {t("privacy.update")}
-        </Text>
+        <Text style={privacyPolicyUpdate(text)}>{t("privacy.update")}</Text>
       </View>
     </ScrollView>
   )

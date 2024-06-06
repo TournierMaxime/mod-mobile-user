@@ -8,6 +8,7 @@ import useHandleFavorites from "@mod/mobile-common/lib/hooks/utils/useHandleFavo
 import Utils from "@mod/mobile-common/lib/class/Utils"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import { useTranslation } from "react-i18next"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const Favorites = () => {
   const { t } = useTranslation()
@@ -15,10 +16,11 @@ const Favorites = () => {
   const favorites = useSelector((state) => state.favorites.data)
   const navigation = useNavigation()
 
+  const { fontSize, imagePosterFavorite } = useResponsive()
+
   const darkMode = useSelector((state) => state.theme.darkMode)
 
-  const { background, text, colorIcon, borderColor } =
-    useDynamicThemeStyles(darkMode)
+  const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
 
   const { removeFromFavorite } = useHandleFavorites({ favorites })
 
@@ -35,7 +37,7 @@ const Favorites = () => {
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
+                style={imagePosterFavorite()}
               />
             </TouchableOpacity>
           )
@@ -48,7 +50,7 @@ const Favorites = () => {
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
+                style={imagePosterFavorite()}
               />
             </TouchableOpacity>
           )
@@ -61,7 +63,7 @@ const Favorites = () => {
             >
               <Image
                 source={{ uri: `https://image.tmdb.org/t/p/original${image}` }}
-                style={[tw`w-15 m-2 h-25 rounded-md`, { objectFit: "cover" }]}
+                style={imagePosterFavorite()}
               />
             </TouchableOpacity>
           )
@@ -75,7 +77,7 @@ const Favorites = () => {
         {renderType(item.type)}
 
         <View style={tw`w-1/3 items-center`}>
-          <Text style={tw`font-medium text-xl ${text}`}>{name}</Text>
+          <Text style={fontSize(text)}>{name}</Text>
         </View>
         <TouchableOpacity
           onPress={() => removeFromFavorite(id)}
@@ -84,7 +86,7 @@ const Favorites = () => {
           <MaterialIcons
             name="delete"
             size={Utils.moderateScale(40)}
-            color={colorIcon}
+            color={"red"}
           />
         </TouchableOpacity>
       </View>
@@ -100,9 +102,7 @@ const Favorites = () => {
       ListEmptyComponent={
         favorites && favorites.length === 0 ? (
           <View style={tw`items-center mt-4`}>
-            <Text style={tw`font-medium text-xl ${text}`}>
-              {t("utils.noFavorite")}
-            </Text>
+            <Text style={fontSize(text)}>{t("utils.noFavorite")}</Text>
           </View>
         ) : null
       }

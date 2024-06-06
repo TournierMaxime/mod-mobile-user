@@ -11,10 +11,13 @@ import { useTranslation } from "react-i18next"
 import Utils from "@mod/mobile-common/lib/class/Utils"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const UpdateData = ({ route }) => {
   const { userId } = route.params
   const navigation = useNavigation()
+
+  const { fontSize } = useResponsive()
 
   const darkMode = useSelector((state) => state.theme.darkMode)
   const localStorageData = useSelector((state) => state.auth.data)
@@ -44,9 +47,7 @@ const UpdateData = ({ route }) => {
                   size={Utils.moderateScale(25)}
                   color={colorIcon}
                 />
-                <Text style={tw`font-medium text-lg ${text}`}>
-                  {t("utils.userName")}
-                </Text>
+                <Text style={fontSize(text)}>{t("utils.userName")}</Text>
               </View>
               <Entypo
                 name="chevron-small-right"
@@ -56,7 +57,8 @@ const UpdateData = ({ route }) => {
             </View>
           </TouchableOpacity>
 
-          {localStorageData?.user?.provider === "Google" ? null : (
+          {localStorageData?.user?.provider === "Google" ||
+          localStorageData?.user?.provider === "Apple" ? null : (
             <TouchableOpacity
               onPress={() => navigation.navigate("UpdateEmail", { userId })}
             >
@@ -73,9 +75,7 @@ const UpdateData = ({ route }) => {
                     size={Utils.moderateScale(28)}
                     color={colorIcon}
                   />
-                  <Text style={tw`font-medium text-lg ${text}`}>
-                    {t("utils.email")}
-                  </Text>
+                  <Text style={fontSize(text)}>{t("utils.email")}</Text>
                 </View>
                 <Entypo
                   name="chevron-small-right"
@@ -102,9 +102,7 @@ const UpdateData = ({ route }) => {
                   size={Utils.moderateScale(28)}
                   color={colorIcon}
                 />
-                <Text style={tw`font-medium text-lg ${text}`}>
-                  {t("utils.avatar")}
-                </Text>
+                <Text style={fontSize(text)}>{t("utils.avatar")}</Text>
               </View>
               <Entypo
                 name="chevron-small-right"

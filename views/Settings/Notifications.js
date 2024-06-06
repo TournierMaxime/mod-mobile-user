@@ -8,12 +8,16 @@ import registerForPushNotificationsAsync from "@mod/mobile-common/lib/components
 import Form from "@mod/mobile-common/lib/class/Form"
 import useHandleUpdateUser from "../../hooks/useHandleUpdateUser"
 import { getUser } from "../../redux/actions/users"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import Utils from "@mod/mobile-common/lib/class/Utils"
 
 const Notifications = ({ route }) => {
   const { userId } = route.params
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
+
+  const { fontSize, notifications } = useResponsive()
 
   const darkMode = useSelector((state) => state.theme.darkMode)
   const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
@@ -64,13 +68,8 @@ const Notifications = ({ route }) => {
           { borderTopWidth: 2, borderBottomWidth: 2 },
         ]}
       >
-        <Text style={tw`mt-2 px-4 py-2 font-medium text-lg ${text}`}>
-          {t("utils.notifications")}
-        </Text>
         <View style={tw`flex flex-row justify-between mt-2 px-4 py-2`}>
-          <Text style={tw`font-normal text-base ${text}`}>
-            {t("actions.enableNotifications")}
-          </Text>
+          <Text style={fontSize(text)}>{t("actions.enableNotifications")}</Text>
           {Form.inputSwitch(
             Boolean(dataNotifications?.expoPushToken),
             handleSwitchChange,
@@ -78,9 +77,7 @@ const Notifications = ({ route }) => {
           )}
         </View>
         <View style={tw`flex flex-row justify-between mt-2 px-4 py-2`}>
-          <Text style={tw`font-normal text-base ${text}`}>
-            {t("actions.enableEmails")}
-          </Text>
+          <Text style={fontSize(text)}>{t("actions.enableEmails")}</Text>
           {Form.inputSwitch(
             Boolean(dataNotifications?.isEmailActive),
             handleSwitchChange,

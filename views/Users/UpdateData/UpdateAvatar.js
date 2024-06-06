@@ -10,12 +10,14 @@ import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import Form from "@mod/mobile-common/lib/class/Form"
 import * as ImagePicker from "expo-image-picker"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const UpdateAvatar = ({ route }) => {
   const { userId } = route.params
   const dispatch = useDispatch()
   const localStorageData = useSelector((state) => state.auth.data)
-  console.log("localStorageData", localStorageData)
+
+  const { widthAspectRatio } = useResponsive()
 
   const darkMode = useSelector((state) => state.theme.darkMode)
 
@@ -96,9 +98,13 @@ const UpdateAvatar = ({ route }) => {
   }
 
   return (
-    <View style={tw`${background} p-4 h-full`}>
-      {Form.uploadFile(data?.image, pickImage, t)}
-      {Form.submit(t("utils.update"), handleUpdate)}
+    <View style={tw`items-center`}>
+      <View style={widthAspectRatio()}>
+        <View style={tw`${background} p-4 h-full`}>
+          {Form.uploadFile(data?.image, pickImage, t)}
+          {Form.submit(t("utils.update"), handleUpdate)}
+        </View>
+      </View>
     </View>
   )
 }

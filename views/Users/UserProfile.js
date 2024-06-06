@@ -17,7 +17,7 @@ import Utils from "@mod/mobile-common/lib/class/Utils"
 import { AlertMessage } from "@mod/mobile-common/lib/components/utils/AlertMessage"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
-import PrivacyPolicy from "./PrivacyPolicy"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const UserProfile = ({ route }) => {
   const { userId } = route.params
@@ -34,6 +34,8 @@ const UserProfile = ({ route }) => {
   const [deleteSuccess, setDeleteSuccess] = useState(false)
 
   const accessDenied = checkAccess(isLogged, currentUserId, userId)
+
+  const { fontSize, deleteAccount } = useResponsive()
 
   const { background, colorIcon, text, borderColor } =
     useDynamicThemeStyles(darkMode)
@@ -90,9 +92,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg ${text}`}>
-                        {user?.pseudo}
-                      </Text>
+                      <Text style={fontSize(text)}>{user?.pseudo}</Text>
                     </View>
                     <Entypo
                       name="chevron-small-right"
@@ -118,9 +118,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg ${text}`}>
-                        {t("utils.favorites")}
-                      </Text>
+                      <Text style={fontSize(text)}>{t("utils.favorites")}</Text>
                     </View>
                     <Entypo
                       name="chevron-small-right"
@@ -146,9 +144,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg ${text}`}>
-                        {t("utils.settings")}
-                      </Text>
+                      <Text style={fontSize(text)}>{t("utils.settings")}</Text>
                     </View>
                     <Entypo
                       name="chevron-small-right"
@@ -174,7 +170,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg ${text}`}>
+                      <Text style={fontSize(text)}>
                         {t("utils.privacyPolicy")}
                       </Text>
                     </View>
@@ -200,9 +196,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text style={tw`font-medium text-lg ${text}`}>
-                        {t("utils.logout")}
-                      </Text>
+                      <Text style={fontSize(text)}>{t("utils.logout")}</Text>
                     </View>
                     <Entypo
                       name="chevron-small-right"
@@ -226,12 +220,7 @@ const UserProfile = ({ route }) => {
                         size={Utils.moderateScale(25)}
                         color={colorIcon}
                       />
-                      <Text
-                        style={[
-                          tw`font-medium text-lg ${text}`,
-                          { color: "red" },
-                        ]}
-                      >
+                      <Text style={deleteAccount(text)}>
                         {t("utils.deleteAccount")}
                       </Text>
                     </View>
@@ -249,7 +238,7 @@ const UserProfile = ({ route }) => {
                   setVisible={setDeleteModalVisible}
                   success={deleteSuccess}
                   t={t}
-                ></AlertModal>
+                />
               </ScrollView>
             </View>
           )}

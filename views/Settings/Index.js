@@ -19,10 +19,13 @@ import {
 } from "react-native-vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import packageJson from "../../../../../package.json"
+import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 
 const Settings = ({ route }) => {
   const { t } = useTranslation()
   const { userId } = route.params
+
+  const { fontSize } = useResponsive()
 
   const navigation = useNavigation()
 
@@ -46,7 +49,7 @@ const Settings = ({ route }) => {
               size={Utils.moderateScale(28)}
               color={colorIcon}
             />
-            <Text style={tw`font-medium text-lg ${text}`}>Theme</Text>
+            <Text style={fontSize(text)}>Theme</Text>
           </View>
           <Entypo
             name="chevron-small-right"
@@ -69,9 +72,7 @@ const Settings = ({ route }) => {
               size={Utils.moderateScale(28)}
               color={colorIcon}
             />
-            <Text style={tw`font-medium text-lg ${text}`}>
-              {t("utils.languages")}
-            </Text>
+            <Text style={fontSize(text)}>{t("utils.languages")}</Text>
           </View>
           <Entypo
             name="chevron-small-right"
@@ -96,9 +97,7 @@ const Settings = ({ route }) => {
               size={Utils.moderateScale(28)}
               color={colorIcon}
             />
-            <Text style={tw`font-medium text-lg ${text}`}>
-              {t("utils.notifications")}
-            </Text>
+            <Text style={fontSize(text)}>{t("utils.notifications")}</Text>
           </View>
           <Entypo
             name="chevron-small-right"
