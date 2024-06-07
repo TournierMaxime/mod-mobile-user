@@ -30,12 +30,14 @@ const Recommendations = ({ route }) => {
 
   const handleNavigation = (data) => {
     if (data.media_type === "movie") {
-      navigation.navigate("DetailsMovie", {
-        id: data.id,
+      navigation.navigate("MoviesTab", {
+        screen: "DetailsMovie",
+        params: { id: data.id },
       })
     } else if (data.media_type === "tv") {
-      navigation.navigate("DetailsSerie", {
-        id: data.id,
+      navigation.navigate("SeriesTab", {
+        screen: "DetailsSerie",
+        params: { id: data.id },
       })
     }
   }
