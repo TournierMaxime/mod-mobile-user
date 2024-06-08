@@ -9,7 +9,6 @@ import Form from "@mod/mobile-common/lib/class/Form"
 import useHandleUpdateUser from "../../hooks/useHandleUpdateUser"
 import { getUser } from "../../redux/actions/users"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
-import Utils from "@mod/mobile-common/lib/class/Utils"
 
 const Notifications = ({ route }) => {
   const { userId } = route.params

@@ -10,7 +10,7 @@ import {
   FontAwesome5,
   MaterialIcons,
   Feather,
-} from "react-native-vector-icons"
+} from "@expo/vector-icons"
 import AlertModal from "@mod/mobile-common/lib/components/utils/AlertModal"
 import { useTranslation } from "react-i18next"
 import Utils from "@mod/mobile-common/lib/class/Utils"

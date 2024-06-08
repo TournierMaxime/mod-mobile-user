@@ -6,7 +6,7 @@ import {
   Entypo,
   FontAwesome5,
   MaterialCommunityIcons,
-} from "react-native-vector-icons"
+} from "@expo/vector-icons"
 import { useTranslation } from "react-i18next"
 import Utils from "@mod/mobile-common/lib/class/Utils"
 import tw from "twrnc"

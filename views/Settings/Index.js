@@ -16,7 +16,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
   Ionicons,
-} from "react-native-vector-icons"
+} from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import packageJson from "../../../../../package.json"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
