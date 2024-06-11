@@ -18,6 +18,7 @@ import { AlertMessage } from "@mod/mobile-common/lib/components/utils/AlertMessa
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { toast } from "@mod/mobile-common/lib/toast"
 
 const UserProfile = ({ route }) => {
   const { userId } = route.params
@@ -43,25 +44,30 @@ const UserProfile = ({ route }) => {
   const { t } = useTranslation()
 
   const handleLogout = () => {
-    dispatch(logoutUser())
-    navigation.navigate("Home")
+    dispatch(logoutUser()).then(() => {
+      navigation.navigate("AuthStackNavigator", {
+        screen: "Login",
+      })
+    })
   }
 
-  const handleDelete = () => {
+  const handleDelete = toast(() => {
     try {
-      dispatch(deleteUser(userId))
       setDeleteSuccess(true)
-      AlertMessage(t("actions.yourAccountHasBeenSuccessfullyDeleted"))
-
-      setTimeout(async () => {
-        await dispatch(logoutUser())
-        navigation.navigate("Home")
-      }, 3000)
+      dispatch(deleteUser(userId)).then(() => {
+        dispatch(logoutUser())
+        navigation.navigate("AuthStackNavigator", {
+          screen: "Login",
+        })
+      })
     } catch (error) {
       console.log(error.response.data.errMsg)
       AlertMessage(error.response.data.errMsg)
     }
-  }
+    return {
+      toastMessage: t("actions.yourAccountHasBeenSuccessfullyDeleted"),
+    }
+  })
 
   const handleDeleteModal = () => {
     setDeleteModalVisible(!deleteModalVisible)
