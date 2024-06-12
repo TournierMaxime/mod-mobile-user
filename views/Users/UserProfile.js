@@ -43,13 +43,20 @@ const UserProfile = ({ route }) => {
 
   const { t } = useTranslation()
 
-  const handleLogout = () => {
-    dispatch(logoutUser()).then(() => {
+  const handleLogout = toast(() => {
+    try {
+      dispatch(logoutUser())
       navigation.navigate("AuthStackNavigator", {
         screen: "Login",
       })
-    })
-  }
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
+    return {
+      toastMessage: t("actions.logoutSuccessful"),
+    }
+  })
 
   const handleDelete = toast(() => {
     try {
@@ -61,8 +68,8 @@ const UserProfile = ({ route }) => {
         })
       })
     } catch (error) {
-      console.log(error.response.data.errMsg)
-      AlertMessage(error.response.data.errMsg)
+      console.log(error)
+      throw new Error(error)
     }
     return {
       toastMessage: t("actions.yourAccountHasBeenSuccessfullyDeleted"),

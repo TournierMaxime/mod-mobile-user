@@ -11,6 +11,7 @@ import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import Form from "@mod/mobile-common/lib/class/Form"
 import * as ImagePicker from "expo-image-picker"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { toast } from "@mod/mobile-common/lib/toast"
 
 const UpdateAvatar = ({ route }) => {
   const { userId } = route.params
@@ -53,7 +54,7 @@ const UpdateAvatar = ({ route }) => {
     }
   }
 
-  const handleUpdate = async () => {
+  const handleUpdate = toast(async () => {
     const formData = new FormData()
 
     const imageUriParts = data.image.split(".")
@@ -82,20 +83,23 @@ const UpdateAvatar = ({ route }) => {
     }
 
     try {
-      await dispatch(updateUser(formData, userId))
-      await AsyncStorage.setItem("userData", JSON.stringify(updatedUserData))
-      await dispatch(setUserWithLocalStorage(updatedUserData))
-      AlertMessage(t("actions.profileUpdated"))
+      await dispatch(updateUser(formData, userId)).then(async () => {
+        await AsyncStorage.setItem("userData", JSON.stringify(updatedUserData))
+        await dispatch(setUserWithLocalStorage(updatedUserData))
+      })
     } catch (error) {
       console.log(error.response.data.errMsg)
 
       if (error.response.data.errMsg) {
-        AlertMessage(error.response.data.errMsg)
+        throw new Error(error.response.data.errMsg)
       } else {
-        AlertMessage(t("errors.anErrorHasOccurred"))
+        throw new Error(t("errors.anErrorHasOccurred"))
       }
     }
-  }
+    return {
+      toastMessage: t("actions.profileUpdated"),
+    }
+  })
 
   return (
     <View style={tw`items-center`}>
