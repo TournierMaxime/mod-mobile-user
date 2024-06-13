@@ -48,8 +48,6 @@ const UpdateEmail = ({ route }) => {
         },
       )
     } catch (error) {
-      console.log(error.response.data.errMsg)
-
       if (error.response.data.errMsg) {
         throw new Error(error.response.data.errMsg)
       } else {

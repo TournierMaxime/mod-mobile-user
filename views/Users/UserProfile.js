@@ -50,7 +50,6 @@ const UserProfile = ({ route }) => {
         screen: "Login",
       })
     } catch (error) {
-      console.log(error)
       throw new Error(error)
     }
     return {
@@ -68,7 +67,6 @@ const UserProfile = ({ route }) => {
         })
       })
     } catch (error) {
-      console.log(error)
       throw new Error(error)
     }
     return {

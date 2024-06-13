@@ -15,16 +15,12 @@ const useHandleUpdateUser = () => {
 
   const handleUpdatePreferences = async (dataNotifications, userId) => {
     try {
-      console.log(
-        "handleUpdatePreferences dataNotifications.isEmailActive",
-        typeof dataNotifications.isEmailActive,
-      )
       await dispatch(updateUser(dataNotifications, userId))
       await dispatch(getUser(userId))
       setMessage({ success: "Données mise à jour" })
     } catch (error) {
-      console.log("handleUpdatePreferences", error)
       setMessage({ error: error.message })
+      throw new Error(error)
     }
   }
   return {
