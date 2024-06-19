@@ -19,7 +19,7 @@ interface Props {
   t: any
   navigation: NavigationProp<MainStackParamList, "Favorites">
   route: any
-  //favorites: []
+  favorites: FavoriteData
 }
 
 interface Item {
@@ -40,7 +40,9 @@ interface FavoriteData {
 const Favorites: React.FC<Props> = () => {
   const { t } = useTranslation()
 
-  const favorites = useSelector((state: RootState) => state.favorites.data)
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.data,
+  ).filter(Boolean)
   const navigation =
     useNavigation<
       NavigationProp<
@@ -131,7 +133,7 @@ const Favorites: React.FC<Props> = () => {
     <FlatList
       style={tw`${background}`}
       data={favorites}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={({ item, index }) => renderItem(item, index)}
       ListEmptyComponent={
         favorites && favorites.length === 0 ? (
