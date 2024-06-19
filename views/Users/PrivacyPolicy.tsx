@@ -4,8 +4,18 @@ import tw from "twrnc"
 import { useSelector } from "react-redux"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const PrivacyPolicy = () => {
+interface PrivacyPolicyProps {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "PrivacyPolicy">
+  route: any
+}
+
+const PrivacyPolicy: React.FC<PrivacyPolicyProps> = () => {
   const { t } = useTranslation()
 
   const {
@@ -16,30 +26,45 @@ const PrivacyPolicy = () => {
     privacyPolicyList,
   } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const { background, text } = useDynamicThemeStyles(darkMode)
 
-  const personalInformationList = t("privacy.ulPersonalInformation", {
+  const personalInformationList: { li: string }[] = t(
+    "privacy.ulPersonalInformation",
+    {
+      returnObjects: true,
+    },
+  ) as { li: string }[]
+  const formsAndInteractivityList: { li: string }[] = t(
+    "privacy.ul1Forms&Interactivity",
+    {
+      returnObjects: true,
+    },
+  ) as { li: string }[]
+  const formsAndInteractivitySecondList: { li: string }[] = t(
+    "privacy.ul2Forms&Interactivity",
+    {
+      returnObjects: true,
+    },
+  ) as { li: string }[]
+  const rightOfOppositionList: { li: string }[] = t(
+    "privacy.ulRightOfOpposition",
+    {
+      returnObjects: true,
+    },
+  ) as { li: string }[]
+  const permissionToAccessList: { li: string }[] = t(
+    "privacy.ulPermissionToAccess",
+    {
+      returnObjects: true,
+    },
+  ) as { li: string }[]
+  const securityList: { li: string }[] = t("privacy.ulSecurity", {
     returnObjects: true,
-  })
-  const formsAndInteractivityList = t("privacy.ul1Forms&Interactivity", {
+  }) as { li: string }[]
+  const legislationList: { li: string }[] = t("privacy.ulLegislation", {
     returnObjects: true,
-  })
-  const formsAndInteractivitySecondList = t("privacy.ul2Forms&Interactivity", {
-    returnObjects: true,
-  })
-  const rightOfOppositionList = t("privacy.ulRightOfOpposition", {
-    returnObjects: true,
-  })
-  const permissionToAccessList = t("privacy.ulPermissionToAccess", {
-    returnObjects: true,
-  })
-  const securityList = t("privacy.ulSecurity", {
-    returnObjects: true,
-  })
-  const legislationList = t("privacy.ulLegislation", {
-    returnObjects: true,
-  })
+  }) as { li: string }[]
 
   return (
     <ScrollView style={tw`${background} h-full`}>

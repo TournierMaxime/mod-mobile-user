@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text, TouchableOpacity, ScrollView } from "react-native"
 import { useSelector } from "react-redux"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, NavigationProp } from "@react-navigation/native"
 import {
   Entypo,
   FontAwesome5,
@@ -12,15 +12,24 @@ import Utils from "@mod/mobile-common/lib/class/Utils"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState } from "store"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const UpdateData = ({ route }) => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "UpdateData">
+  route: any
+}
+
+const UpdateData: React.FC<Props> = ({ route }) => {
   const { userId } = route.params
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>()
 
   const { fontSize } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
-  const localStorageData = useSelector((state) => state.auth.data)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
+  const localStorageData = useSelector((state: RootState) => state.auth.data)
 
   const { background, colorIcon, text, borderColor } =
     useDynamicThemeStyles(darkMode)

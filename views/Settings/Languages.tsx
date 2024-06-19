@@ -7,13 +7,23 @@ import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import Lang from "@mod/mobile-tmdb/lib/components/Languages"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 import Utils from "@mod/mobile-common/lib/class/Utils"
+import { RootState } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const Languages = () => {
+interface LanguagesProps {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Languages">
+  route: any
+}
+
+const Languages: React.FC<LanguagesProps> = () => {
   const { i18n, t } = useTranslation()
 
   const { fontSize } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
 
   return (

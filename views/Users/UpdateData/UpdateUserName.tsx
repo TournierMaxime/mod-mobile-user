@@ -10,22 +10,38 @@ import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import Form from "@mod/mobile-common/lib/class/Form"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 import { toast } from "@mod/mobile-common/lib/toast"
+import { RootState, AppDispatch } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const UpdateEmail = ({ route }) => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "UpdateUserName">
+  route: any
+}
+
+type FormData = {
+  [key: string]: any
+}
+
+const UpdateUserName: React.FC<Props> = ({ route }) => {
   const { userId } = route.params
-  const dispatch = useDispatch()
-  const localStorageData = useSelector((state) => state.auth.data)
+
+  const dispatch: AppDispatch = useDispatch()
+
+  const localStorageData = useSelector((state: RootState) => state.auth.data)
 
   const { widthAspectRatio } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
   const { background } = useDynamicThemeStyles(darkMode)
 
   const { t } = useTranslation()
 
-  const [data, setData] = useState({
-    email: localStorageData.user?.email || "",
+  const [data, setData] = useState<FormData>({
+    pseudo: localStorageData.user?.pseudo || "",
   })
 
   const handleUpdate = toast(async () => {
@@ -33,21 +49,22 @@ const UpdateEmail = ({ route }) => {
       ...localStorageData,
       user: {
         ...localStorageData.user,
-        email: data.email,
+        pseudo: data.pseudo,
       },
     }
 
     try {
-      await dispatch(updateUser({ email: data?.email }, userId)).then(
+      await dispatch(updateUser({ pseudo: data?.pseudo }, userId)).then(
         async () => {
           await AsyncStorage.setItem(
             "userData",
             JSON.stringify(updatedUserData),
           )
+
           await dispatch(setUserWithLocalStorage(updatedUserData))
         },
       )
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.data.errMsg) {
         throw new Error(error.response.data.errMsg)
       } else {
@@ -63,12 +80,19 @@ const UpdateEmail = ({ route }) => {
     <View style={tw`items-center`}>
       <View style={widthAspectRatio()}>
         <View style={tw`${background} p-4 h-full`}>
-          {Form.inputText(data, setData, t("utils.email"), "email", data.email)}
-          {Form.submit(t("utils.update"), handleUpdate)}
+          {Form.inputText(
+            data,
+            setData,
+            t("utils.userName"),
+            "pseudo",
+            data.pseudo,
+            false,
+          )}
+          {Form.submit(t("utils.update"), handleUpdate, false)}
         </View>
       </View>
     </View>
   )
 }
 
-export default UpdateEmail
+export default UpdateUserName

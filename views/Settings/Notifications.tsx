@@ -9,37 +9,46 @@ import Form from "@mod/mobile-common/lib/class/Form"
 import useHandleUpdateUser from "../../hooks/useHandleUpdateUser"
 import { getUser } from "../../redux/actions/users"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState, AppDispatch } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const Notifications = ({ route }) => {
+interface NotificationsProps {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Notifications">
+  route: any
+}
+
+const Notifications: React.FC<NotificationsProps> = ({ route }) => {
   const { userId } = route.params
 
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const { t } = useTranslation()
 
-  const { fontSize, notifications } = useResponsive()
+  const { fontSize } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
 
-  const oneUser = useSelector((state) => state.oneUser.data?.user)
+  const oneUser = useSelector((state: RootState) => state.oneUser.data?.user)
 
   const { handleUpdatePreferences, dataNotifications, setDataNotifications } =
     useHandleUpdateUser()
 
-  const handleSwitchChange = async (key, value) => {
-    let update
+  const handleSwitchChange = async (key: string, value: string | boolean) => {
+    let update: {
+      isEmailActive: boolean
+      expoPushToken: string
+    } = {
+      ...dataNotifications,
+    }
 
     if (key === "expoPushToken") {
       const newValue = value ? await registerForPushNotificationsAsync() : ""
-      update = {
-        ...dataNotifications,
-        [key]: newValue,
-      }
+      update.expoPushToken = newValue
     } else if (key === "isEmailActive") {
-      update = {
-        ...dataNotifications,
-        [key]: key === "isEmailActive" ? !!value : value,
-      }
+      update.isEmailActive = !!value
     }
 
     setDataNotifications(update)

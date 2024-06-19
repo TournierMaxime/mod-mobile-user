@@ -4,7 +4,6 @@ import { updateUser } from "../../../redux/actions/users"
 import { setUserWithLocalStorage } from "@mod/mobile-auth/redux/actions/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
-import { AlertMessage } from "@mod/mobile-common/lib/components/utils/AlertMessage"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
@@ -12,15 +11,27 @@ import Form from "@mod/mobile-common/lib/class/Form"
 import * as ImagePicker from "expo-image-picker"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 import { toast } from "@mod/mobile-common/lib/toast"
+import { RootState, AppDispatch } from "store"
+import { MainStackParamList } from "navigators/MainStackNavigator"
+import { NavigationProp } from "@react-navigation/native"
 
-const UpdateAvatar = ({ route }) => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "UpdateAvatar">
+  route: any
+}
+
+const UpdateAvatar: React.FC<Props> = ({ route }) => {
   const { userId } = route.params
-  const dispatch = useDispatch()
-  const localStorageData = useSelector((state) => state.auth.data)
+
+  const dispatch: AppDispatch = useDispatch()
+
+  const localStorageData = useSelector((state: RootState) => state.auth.data)
 
   const { widthAspectRatio } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
   const { background } = useDynamicThemeStyles(darkMode)
 
@@ -30,13 +41,12 @@ const UpdateAvatar = ({ route }) => {
     image: localStorageData.user?.image || "",
   })
 
-  const pickImage = async () => {
+  const pickImage = toast(async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync()
 
     if (permissionResult.granted === false) {
-      alert(t("actions.permissionToAccessCameraRollIsRequired"))
-      return
+      throw new Error(t("actions.permissionToAccessCameraRollIsRequired"))
     }
 
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -52,7 +62,10 @@ const UpdateAvatar = ({ route }) => {
         image: result.assets[0].uri,
       })
     }
-  }
+    return {
+      toastMessage: "Image selected",
+    }
+  })
 
   const handleUpdate = toast(async () => {
     const formData = new FormData()
@@ -87,7 +100,7 @@ const UpdateAvatar = ({ route }) => {
         await AsyncStorage.setItem("userData", JSON.stringify(updatedUserData))
         await dispatch(setUserWithLocalStorage(updatedUserData))
       })
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.data.errMsg) {
         throw new Error(error.response.data.errMsg)
       } else {
@@ -104,7 +117,7 @@ const UpdateAvatar = ({ route }) => {
       <View style={widthAspectRatio()}>
         <View style={tw`${background} p-4 h-full`}>
           {Form.uploadFile(data?.image, pickImage, t)}
-          {Form.submit(t("utils.update"), handleUpdate)}
+          {Form.submit(t("utils.update"), handleUpdate, false)}
         </View>
       </View>
     </View>

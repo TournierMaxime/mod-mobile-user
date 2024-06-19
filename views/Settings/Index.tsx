@@ -17,19 +17,28 @@ import {
   MaterialCommunityIcons,
   Ionicons,
 } from "@expo/vector-icons"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, NavigationProp } from "@react-navigation/native"
 import packageJson from "../../../../../package.json"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState } from "store"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const Settings = ({ route }) => {
+interface SettingsProps {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Settings">
+  route: any
+}
+
+const Settings: React.FC<SettingsProps> = ({ route }) => {
   const { t } = useTranslation()
   const { userId } = route.params
 
   const { fontSize } = useResponsive()
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const { background, text, borderColor, colorIcon } =
     useDynamicThemeStyles(darkMode)
 

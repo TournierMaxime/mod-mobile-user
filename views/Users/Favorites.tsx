@@ -3,31 +3,65 @@ import { View, Text, FlatList, Image, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux"
 import tw from "twrnc"
 import { MaterialIcons } from "@expo/vector-icons"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, NavigationProp } from "@react-navigation/native"
 import useHandleFavorites from "@mod/mobile-common/lib/hooks/utils/useHandleFavorites"
 import Utils from "@mod/mobile-common/lib/class/Utils"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import { useTranslation } from "react-i18next"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState } from "store"
+import { MainStackParamList } from "navigators/MainStackNavigator"
+import { MovieStackParamList } from "navigators/MovieStackNavigator"
+import { SerieStackParamList } from "navigators/SerieStackNavigator"
 
-const Favorites = () => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Favorites">
+  route: any
+  //favorites: []
+}
+
+interface Item {
+  id: number
+  name: string
+  image: string
+  type: string
+}
+
+interface FavoriteData {
+  id: number
+  name: string
+  image: string
+  type: string
+  recommendationId: string
+}
+
+const Favorites: React.FC<Props> = () => {
   const { t } = useTranslation()
 
-  const favorites = useSelector((state) => state.favorites.data)
-  const navigation = useNavigation()
+  const favorites = useSelector((state: RootState) => state.favorites.data)
+  const navigation =
+    useNavigation<
+      NavigationProp<
+        MainStackParamList & MovieStackParamList & SerieStackParamList
+      >
+    >()
 
   const { fontSize, imagePosterFavorite } = useResponsive()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
   const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
 
-  const { removeFromFavorite } = useHandleFavorites({ favorites })
+  const { removeFromFavorite } = useHandleFavorites({
+    favorites,
+  })
 
-  const renderItem = (item, idx) => {
+  const renderItem = (item: Item, index: number) => {
     const { id, name, image } = item
 
-    const renderType = (type) => {
+    const renderType = (type: string) => {
       switch (type) {
         case "serie": {
           return (
@@ -71,7 +105,7 @@ const Favorites = () => {
     }
     return (
       <View
-        key={idx}
+        key={index}
         style={tw`flex flex-row justify-between items-center ${background} p-2 mt-px border-b-2 ${borderColor}`}
       >
         {renderType(item.type)}
@@ -98,7 +132,7 @@ const Favorites = () => {
       style={tw`${background}`}
       data={favorites}
       keyExtractor={(item) => item.id}
-      renderItem={({ item, idx }) => renderItem(item, idx)}
+      renderItem={({ item, index }) => renderItem(item, index)}
       ListEmptyComponent={
         favorites && favorites.length === 0 ? (
           <View style={tw`items-center mt-4`}>

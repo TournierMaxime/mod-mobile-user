@@ -14,22 +14,38 @@ import {
 import AlertModal from "@mod/mobile-common/lib/components/utils/AlertModal"
 import { useTranslation } from "react-i18next"
 import Utils from "@mod/mobile-common/lib/class/Utils"
-import { AlertMessage } from "@mod/mobile-common/lib/components/utils/AlertMessage"
 import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 import { toast } from "@mod/mobile-common/lib/toast"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
+import { RootState, AppDispatch } from "store"
+import { AuthStackParamList } from "modules/mod-mobile-auth/navigators/AuthStackNavigator"
 
-const UserProfile = ({ route }) => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "UserProfile">
+  route: any
+  //favorites: []
+}
+
+const UserProfile: React.FC<Props> = ({ route }) => {
   const { userId } = route.params
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
 
-  const oneUser = useSelector((state) => state.oneUser.data)
-  const currentUserId = useSelector((state) => state.auth.data?.user?.userId)
-  const isLogged = useSelector((state) => state.auth.isAuthenticated)
-  const user = useSelector((state) => state.auth.data?.user)
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const dispatch: AppDispatch = useDispatch()
+
+  const navigation =
+    useNavigation<NavigationProp<MainStackParamList & AuthStackParamList>>()
+
+  const oneUser = useSelector((state: RootState) => state.oneUser.data)
+  const currentUserId = useSelector(
+    (state: RootState) => state.auth.data?.user?.userId,
+  )
+  const isLogged = useSelector((state: RootState) => state.auth.isAuthenticated)
+  const user = useSelector((state: RootState) => state.auth.data?.user)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const [deleteSuccess, setDeleteSuccess] = useState(false)
@@ -43,13 +59,13 @@ const UserProfile = ({ route }) => {
 
   const { t } = useTranslation()
 
-  const handleLogout = toast(() => {
+  const handleLogout = toast(async () => {
     try {
-      dispatch(logoutUser())
+      await dispatch(logoutUser())
       navigation.navigate("AuthStackNavigator", {
         screen: "Login",
       })
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error)
     }
     return {
@@ -57,16 +73,16 @@ const UserProfile = ({ route }) => {
     }
   })
 
-  const handleDelete = toast(() => {
+  const handleDelete = toast(async () => {
     try {
       setDeleteSuccess(true)
-      dispatch(deleteUser(userId)).then(() => {
+      await dispatch(deleteUser(userId)).then(() => {
         dispatch(logoutUser())
         navigation.navigate("AuthStackNavigator", {
           screen: "Login",
         })
       })
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error)
     }
     return {

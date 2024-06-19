@@ -9,26 +9,46 @@ import Message from "@mod/mobile-common/lib/components/utils/Message"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
 import Utils from "@mod/mobile-common/lib/class/Utils"
+import { RootState, AppDispatch } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
+import { MovieStackParamList } from "navigators/MovieStackNavigator"
+import { SerieStackParamList } from "navigators/SerieStackNavigator"
 
-const Recommendations = ({ route }) => {
+interface Props {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Recommendations">
+  route: any
+  //favorites: []
+}
+
+interface Item {
+  poster_path: string
+  media_type: string
+}
+
+const Recommendations: React.FC<Props> = ({ route }) => {
   const { userId, recommendationId } = route.params
 
   const { imagePoster, fontSize } = useResponsive()
 
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
+  const dispatch: AppDispatch = useDispatch()
+
+  const navigation =
+    useNavigation<NavigationProp<MovieStackParamList & SerieStackParamList>>()
 
   const { t } = useTranslation()
 
-  const darkMode = useSelector((state) => state.theme.darkMode)
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
   const { background, text } = useDynamicThemeStyles(darkMode)
 
   const oneRecommendation = useSelector(
-    (state) => state.oneRecommendation.data.recommendation,
+    (state: RootState) => state.oneRecommendation.data.recommendation,
   )
 
-  const handleNavigation = (data) => {
+  const handleNavigation = (data: any) => {
     if (data.media_type === "movie") {
       navigation.navigate("MoviesTab", {
         screen: "DetailsMovie",
@@ -48,10 +68,10 @@ const Recommendations = ({ route }) => {
     }
   }
 
-  const renderItem = (item, idx) => {
+  const renderItem = (item: Item, index: number) => {
     const { poster_path, media_type } = item
     return (
-      <TouchableOpacity onPress={() => handleNavigation(item)} key={idx}>
+      <TouchableOpacity onPress={() => handleNavigation(item)} key={index}>
         <View>
           {media_type === "movie" ? (
             <Fragment>
@@ -87,7 +107,7 @@ const Recommendations = ({ route }) => {
         style={tw`${background}`}
         keyExtractor={(item) => item.id}
         data={oneRecommendation?.data}
-        renderItem={({ item, idx }) => renderItem(item, idx)}
+        renderItem={({ item, index }) => renderItem(item, index)}
         numColumns={2}
         ListEmptyComponent={noDataObject()}
         ListHeaderComponent={

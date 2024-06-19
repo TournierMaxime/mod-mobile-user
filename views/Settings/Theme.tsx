@@ -5,10 +5,20 @@ import tw from "twrnc"
 import { useDynamicThemeStyles } from "@mod/mobile-common/styles/theme"
 import { toggleTheme } from "@mod/mobile-common/redux/actions/theme"
 import useResponsive from "@mod/mobile-common/lib/hooks/utils/useResponsive"
+import { RootState, AppDispatch } from "store"
+import { NavigationProp } from "@react-navigation/native"
+import { MainStackParamList } from "navigators/MainStackNavigator"
 
-const Theme = () => {
-  const dispatch = useDispatch()
-  const darkMode = useSelector((state) => state.theme.darkMode)
+interface ThemeProps {
+  i18n: any
+  t: any
+  navigation: NavigationProp<MainStackParamList, "Theme">
+  route: any
+}
+
+const Theme: React.FC<ThemeProps> = () => {
+  const dispatch: AppDispatch = useDispatch()
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const { background, text, borderColor } = useDynamicThemeStyles(darkMode)
 
   const { fontSize } = useResponsive()
